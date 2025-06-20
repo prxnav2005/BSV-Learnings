@@ -1,6 +1,6 @@
 # BSV: Based on Advanced Computer Science Innovations
 
-Bluespec SystemVerilog (BSV) is not just another HDL — it's grounded in deep ideas from modern Computer Science, especially in concurrency(multiple independent things happening at (or appearing to happen at) the same time) and functional programming(writing programs by describing what a system does, rather than how it does it).
+Bluespec SystemVerilog (BSV) is not just another HDL — it's grounded in deep ideas from modern Computer Science, especially in concurrency (multiple independent things happening at or appearing to happen at the same time) and functional programming (writing programs by describing what a system does, rather than how it does it).
 
 ## Behavioral Semantics
 
@@ -11,10 +11,10 @@ Bluespec SystemVerilog (BSV) is not just another HDL — it's grounded in deep i
   - Represent fine-grained, concurrent state transitions
   - Execute atomically and are scheduled deterministically
   - Allow for highly modular and scalable hardware descriptions
-- This model makes it easier to reason about concurrency, avoid race conditions, and build complex systems compositionally.
+- This makes it easier to reason about concurrency, avoid race conditions, and build compositional systems.
 
 > [!NOTE]
-> We have all pulled our hair out due to race conditions, timing problems where your output and input, instead of being synchronized might be one or two clock cycles ahead than the other and all you see is a bunch of `XXXXX` on the waveform, which makes you wanna punch your screen- BUT HEY why worry about all that, when BSV exists. 
+> We have all pulled our hair out due to race conditions, timing problems where your output and input, instead of being synchronized, might be one or two clock cycles apart and all you see is a bunch of `XXXXX` on the waveform — which makes you wanna punch your screen. BUT HEY, why worry about all that when BSV exists?
 
 ```verilog
 always_ff @(posedge clk) a <= b;
@@ -30,14 +30,14 @@ rule swap;
     b <= tmp;
 endrule
 ```
-> This executes atomically. No weird interleaving, no half-updated state, no subtle bugs. BSV’s atomic transactional rules eliminate a huge class of problems tied to scheduling, race conditions, and conflicting updates — the very things that makes Verilog look bad. 
+> This executes atomically. No weird interleaving, no half-updated state, no subtle bugs. BSV’s atomic transactional rules eliminate a huge class of problems tied to scheduling, race conditions, and conflicting updates — the very things that makes Verilog painful to use sometimes. 
 
 ## Architectural Structure
 
-BSV designs are not just about behavior — they also emphasize clean and flexible **architectural structure**:
+BSV designs emphasize clean and flexible architectural structure:
 - Modules and interfaces cleanly separate implementation from communication
 - Rules describe **when** things happen, not just what happens
-- Highly suitable for scalable, modular, and reusable hardware design
+- Well-suited for modular, reusable, scalable design
 
 **Example**
 In Verilog, a counter is usually a module with `input`, `output`, and logic all mixed together.  
@@ -68,26 +68,16 @@ endmodule
 
 BSV borrows key capabilities from **Haskell**, one of the most expressive and strongly typed functional languages:
 
-- **Very expressive type system**
-  - Bit-width precision, parameterized types, type constructors
-- **Very strong type-checking**
-  - Prevents common bugs like mismatched signal sizes or invalid connections
-- **Powerful parameterization**
-  - Modules, data structures, and types can be generically defined and reused
+- **Very expressive type system** : Bit-precise types, parameterized types, type constructors
+- **Strong type-checking** : Catches size mismatches and incorrect connections at compile-time
+- **Powerful parameterization** : Modules, data types, and logic can be highly reusable
 
 This combination of features results in hardware designs that are:
 - Easier to write and read
 - Safer and more robust
 - Highly reusable and modular
 
-## Summary
-
-BSV stands out because it unifies:
-- **Rigorous behavioral modeling** (via atomic rules)
-- **Clean architectural composition** (via modules/interfaces)
-- **Expressive, type-safe programming paradigms** (via Haskell-inspired features)
-
----
+> In short, BSV’s combination of safety, modularity, and abstraction makes it ideal for modern hardware design.
 
 # BSV: A Fundamentally Different Approach to Hardware Design
 
@@ -112,12 +102,12 @@ In traditional HDL, all components update **together** on the clock. You manuall
 
 ```
 Clock ───► [ Module A ]
-│ │
-▼ ▼
-[ Module B ] ◄── all update on the same clock edge
-│
-▼
-[ Module C ]
+             │
+             ▼
+         [ Module B ]
+             │
+             ▼
+         [ Module C ]
 ```
 
 But this leads to tight coupling between all modules, centralized control, hard to scale and reason about independently. This is where BSV saves your life by making each module react independently using **rules**. The compiler ensures that updates are atomic and scheduled safely.
@@ -165,3 +155,49 @@ BSV isn’t limited to one class of designs. It has been used for:
 - **Structural:** Functional generation + strong typing = scalable, reusable hardware
 - **Behavioral:** Rule-based concurrency = fewer bugs, cleaner logic, better modularity
 - **Philosophy:** Think hardware. Think parallel. Stay in control.
+
+## Comparing BSV’s Approach to Other HDLs
+
+### Behavioral Semantics
+
+| Feature           | BSV (Behavior Rules)       | Synthesizable RTL (Verilog/VHDL/SystemVerilog) | HLS (C/C++/Matlab)              |
+|------------------|----------------------------|-----------------------------------------------|----------------------------------|
+| Execution Model  | Atomic transactional rules | Clocked synchronous circuits                  | Sequential programming           |
+| Interfaces       | Object-oriented methods    | Explicit wires or TLM-style interfaces         | Minimal or top-level only        |
+
+---
+
+### Structural Abstractions and Language Features
+
+| Feature              | BSV                            | Synthesizable RTL                      | HLS                              |
+|---------------------|---------------------------------|----------------------------------------|----------------------------------|
+| Architectural Transparency | Strong                   | Strong                                 | Weak                             |
+| Type Checking       | Strong                          | Weak to Medium                         | Medium                           |
+| Type System         | Powerful user-defined types     | Bit-level types, weak customization     | Weak user-defined types          |
+| Parameterization    | Powerful                        | Limited                                 | Limited                          |
+
+[!NOTE]  
+Only the synthesizable subsets are compared above. For example, SystemC has more abstraction at the TLM level, but that's used for simulation, not synthesis.
+
+---
+
+## Use Cases for BSV
+
+### Modeling
+- Used to model processor architectures like MIPS, SPARC, x86, Itanium, ARM, PowerPC, Tensilica, RISC-V, JVM
+- These models are synthesizable and have been run on FPGAs
+- Many run full operating systems like Linux
+
+### Verification
+- Used to build transactors and verification environments for:
+  - PCIe Gen 3
+  - Multi-core cache-coherent interconnects
+  - AXI protocol components
+- All synthesized and validated on FPGAs
+
+### Complex IP Design
+- Used in commercial mobile and embedded devices (phones, tablets, set-top boxes)
+- Involves both high-speed datapaths and complex control logic
+
+[!NOTE]  
+Unlike BSV, most HLS tools are limited to IP design and are typically used only for signal processing (datapath-heavy) workloads. They are rarely used for control-intensive or architectural modeling tasks.
