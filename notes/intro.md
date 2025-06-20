@@ -201,3 +201,5 @@ Only the synthesizable subsets are compared above. For example, SystemC has more
 
 > [!NOTE]  
 > Unlike BSV, most HLS tools are limited to IP design and are typically used only for signal processing (datapath-heavy) workloads. They are rarely used for control-intensive or architectural modeling tasks.
+
+![bsv_tool_flow](/images/bsv_tool_flow.png)
