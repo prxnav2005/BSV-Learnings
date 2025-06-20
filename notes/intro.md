@@ -199,5 +199,5 @@ Only the synthesizable subsets are compared above. For example, SystemC has more
 - Used in commercial mobile and embedded devices (phones, tablets, set-top boxes)
 - Involves both high-speed datapaths and complex control logic
 
-[!NOTE]  
-Unlike BSV, most HLS tools are limited to IP design and are typically used only for signal processing (datapath-heavy) workloads. They are rarely used for control-intensive or architectural modeling tasks.
+> [!NOTE]  
+> Unlike BSV, most HLS tools are limited to IP design and are typically used only for signal processing (datapath-heavy) workloads. They are rarely used for control-intensive or architectural modeling tasks.
