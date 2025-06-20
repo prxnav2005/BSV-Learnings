@@ -7,7 +7,7 @@ Bluespec SystemVerilog (BSV) is a modern high level hardware design language (HL
 ### 1. Circuit Generation, Not Just Description
 
 BSV is based on the idea of *circuit generation* using the power of a modern functional programming language. It draws inspiration from [Haskell](https://en.wikipedia.org/wiki/Haskell) in terms of:
-- Strong static typing: Every signal, register, module, and interface in BSV has a well-defined type that is checked at compile time. This eliminates a large class of bugs related to bitwidth mismatches or invalid operations. Unlike traditional HDLs, BSV will not compile if types don't align, ensuring higher correctness earlier in the design flow.
+- Strong static typing: Every signal, register, module, and interface in BSV has a well-defined type(Strongly typed: Types are enforced strictly. Mistakes are caught early, Weakly typed: Types can be mixed more freely, often leading to subtle bugs) that is checked at compile time. This eliminates a large class of bugs related to bitwidth mismatches or invalid operations. Unlike traditional HDLs, BSV will not compile if types don't align, ensuring higher correctness earlier in the design flow.
 
 **Example**
 
